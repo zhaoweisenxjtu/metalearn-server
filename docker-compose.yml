@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    container_name: metalearn-api
+    ports:
+      - "8000:8000"
+    environment:
+      - META_LEARN_DB=/data/meta_learning.db
+      # 首次启动时设置引导管理员 Key：
+      # - META_LEARN_BOOTSTRAP_KEY=ml_change_this_to_your_admin_key
+    volumes:
+      - meta-learn-data:/data
+    restart: unless-stopped
+
+volumes:
+  meta-learn-data:

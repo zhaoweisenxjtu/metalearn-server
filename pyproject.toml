@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "metalearn-server"
+version = "0.1.0"
+description = "认知科学驱动的元学习引擎 — SM-2 间隔重复、学习路线管理、进度追踪"
+authors = [{ name = "zhaoweisen" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.scripts]
+meta-learn = "adapters.cli.main:main"
+
+[project.optional-dependencies]
+server = ["fastapi>=0.110", "uvicorn[standard]>=0.27"]
+knowledge = ["jieba>=0.42", "rank-bm25>=0.2"]
+dev = [
+    "pytest>=7",
+    "pytest-md>=0.2",
+    "ruff>=0.3",
+    "httpx>=0.27",
+    # server extras for testclient
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    # knowledge extras for indexing tests
+    "jieba>=0.42",
+    "rank-bm25>=0.2",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["src*"]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: 耗时较长的测试",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = ["__pycache__", "*.egg-info"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]  # line-length handled by formatter
